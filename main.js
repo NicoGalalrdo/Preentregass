@@ -1,41 +1,35 @@
-function inicio () {
-    let name = prompt("Ingresa tu nombre")
-    alert ("Hola " + name + " Bienvenido a nuestra tienda de ropa")
+const productos =[
+{ prenda: "Remera", precio: 15000, marca: "Nike", talle: "M" },
+{ prenda: "Pantalon", precio: 10000, marca: "Adidas", talle: "L"},
+{ prenda: "Buzo", precio: 20000, marca: "Puma", talle: "XL"},
+{ prenda: "Campero", precio: 25000, marca: "Topper", talle: "S"},
+];
+
+productos.forEach((elemento, index) => {
+    console.log("Productos disponibles: " + elemento.prenda + " " + elemento.marca + " " + elemento.talle + " $" + elemento.precio);
+});
+console.table(productos)
+
+
+const productosOferta = productos.map((elementos) => {
+    return {prenda: elementos.prenda  , precio: elementos.precio * 0.5, marca: elementos.marca,  talle: elementos.talle}
+});
+console.log("Llevando mas de dos prendas te llevas un 50% de descuento en el total de tu compra quedando el precio de cada prenda en: ")
+console.table(productosOferta)
+
+let busquedaPrenda = prompt("Ingrese la prenda que desea buscar")
+
+let prendaEncontrada = productos.find(
+    (producto)=> 
+        producto.prenda.toUpperCase().trim() == busquedaPrenda.toUpperCase().trim(),
+);
+console.log(prendaEncontrada)
+
+if(prendaEncontrada){
+    console.log("EL precio de la prenda es: $" + prendaEncontrada.precio);
+}else{
+    console.log("No hay prendas de ese tipo disponibles")
 }
 
-inicio()
-
-class producto {
-    constructor (nombre, precio, categoria ,stock, ofertaPorcentaje, oferta) {
-        this.nombre = nombre
-        this.precio = precio
-        this.categoria = categoria
-        this.stock = stock
-        this.ofertaPorcentaje = ofertaPorcentaje
-        this.oferta = oferta
-    }
-    
-    ofertaProducto(){
-        let precioOferta = this.precio - (this.precio * this.ofertaPorcentaje / 100)
-        return precioOferta
-    }
-    
-    fechaOferta(){
-        console.log("El producto " + this.nombre + " Esta en oferta hasta el dia " + this.oferta)
-    }
-}
-
-const producto1 = new producto ("Remera", 2000, "Hombre", 10, 10, "15/9/2026")
-console.log(producto1)
-console.log("Precio en oferta: $" + producto1.ofertaProducto())
-producto1.fechaOferta()
-
-const producto2 = new producto ("Pantalon", 1500, "Mujer", 20, 15, "20/9/2026") 
-console.log(producto2)
-console.log("Precio en oferta: $" + producto2.ofertaProducto())
-producto2.fechaOferta()
-
-const producto3 = new producto ("Campera", 5000, "Unisex", 15, 20, "30/9/2026")
-console.log(producto3)
-console.log("precio en oferta: $" + producto3.ofertaProducto())
-producto3.fechaOferta()
+const carrito = productos.reduce((total, producto) => total + producto.precio, 0);
+console.log("El total de tu compra es: $" + carrito)
